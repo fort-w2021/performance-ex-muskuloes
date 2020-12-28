@@ -4,7 +4,6 @@ source("slow-sim.R")
 source("slow-sim-sol.R")
 source("parallel-sol.R")
 
-set.seed <- 232323
 observations <- 5000
 covariates <- 10
 testdata <- as.data.frame(
@@ -14,6 +13,9 @@ testdata <- as.data.frame(
 )
 
 test <- simulate(reps = 100, seed = 20141028, data = testdata)
+test_faster <- simulate_opt(reps = 100, seed = 20141028, data = testdata)
+
+all.equal(test, test_faster)
 
 # a)
 # cbind isn't very efficient as it does a copy of the data, use `[, rep]`.

@@ -1,12 +1,20 @@
+library(checkmate)
 # simulate lm fit with t-distributed errors
 # @params:
 #   reps: number of test simulations
 #   seed
+#   data: data frame of numeric values
 #   true_coef: vector true model coefficients
 #   df: distribution degrees of freedom
 # @return: n x reps dimensional matrix,
 #         where is the length of the true coefficients vector
 simulate_opt <- function(reps, seed, data, true_coef = 0:ncol(data), df = 4) {
+  # input checks
+  checkmate::assert_count(reps)
+  checkmate::assert_count(seed)
+  checkmate::assert_data_frame(data, types = "numeric")
+  checkmate::assert_vector(true_coef, any.missing = FALSE, len = ncol(data) + 1)
+  checkmate::assert_number(df)
   set.seed(seed)
   coef <- matrix(0, nrow = length(true_coef), ncol = reps)
 
